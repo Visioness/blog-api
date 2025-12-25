@@ -8,6 +8,6 @@ const router = Router();
 
 router.use('/sign-up', signUpRouter);
 router.use('/log-in', logInRouter);
-router.use('/log-out', logOutRouter);
+router.use('/log-out', verifyJWT, logOutRouter);
 
 export { router };

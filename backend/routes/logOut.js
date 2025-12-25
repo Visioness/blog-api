@@ -1,9 +1,8 @@
 import { Router } from 'express';
-import { verifyJWT } from '../middlewares/verifyJWT.js';
 
 const router = Router();
 
-router.post('/', verifyJWT, (req, res, next) => {
+router.post('/', (req, res, next) => {
   try {
     res.clearCookie('token', {
       httpOnly: true,
