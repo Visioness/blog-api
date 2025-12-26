@@ -39,4 +39,28 @@ const userValidation = [
     }),
 ];
 
-export { userValidation };
+const postValidation = [
+  body('title')
+    .trim()
+    .notEmpty()
+    .withMessage('Title is required')
+    .isLength({ min: 3, max: 200 })
+    .withMessage('Title must be between 3 and 200 characters'),
+
+  body('content')
+    .trim()
+    .notEmpty()
+    .withMessage('Content is required')
+    .isLength({ min: 10 })
+    .withMessage('Content must be at least 10 characters long'),
+];
+
+const postStatusValidation = [
+  body('status')
+    .notEmpty()
+    .withMessage('Status is required')
+    .isIn(['PUBLISHED', 'HIDDEN'])
+    .withMessage('Status must be either PUBLISHED or HIDDEN'),
+];
+
+export { userValidation, postValidation, postStatusValidation };
