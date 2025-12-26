@@ -12,7 +12,7 @@ const signUp = async (req, res, next) => {
         .array()
         .map((error) => error.msg)
         .join('--');
-      return res.json({
+      return res.status(400).json({
         success: false,
         message: mergedMessage,
       });
