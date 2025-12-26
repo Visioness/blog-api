@@ -1,4 +1,4 @@
-const verifyRole = (req, res, next) => {
+const verifyAuthor = (req, res, next) => {
   const { role } = req.user;
 
   if (role === 'READER') {
@@ -11,4 +11,4 @@ const verifyRole = (req, res, next) => {
   next();
 };
 
-export { verifyRole };
+export { verifyAuthor };

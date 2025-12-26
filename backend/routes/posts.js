@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { verifyRole } from '../middlewares/verifyRole.js';
+import { verifyAuthor } from '../middlewares/verifyAuthor.js';
 import {
   postValidation,
   postStatusValidation,
@@ -19,13 +19,13 @@ const router = Router();
 router.get('/', getAllPosts);
 router.get('/:postId', getPostByPostId);
 
-router.post('/', verifyRole, postValidation, createPost);
-router.patch('/:postId', verifyRole, postValidation, updatePost);
-router.delete('/:postId', verifyRole, deletePost);
+router.post('/', verifyAuthor, postValidation, createPost);
+router.patch('/:postId', verifyAuthor, postValidation, updatePost);
+router.delete('/:postId', verifyAuthor, deletePost);
 
 router.patch(
   '/:postId/status',
-  verifyRole,
+  verifyAuthor,
   postStatusValidation,
   changePostStatus
 );
