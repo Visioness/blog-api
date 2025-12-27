@@ -2,7 +2,7 @@ import { prisma } from '../lib/prisma.js';
 import { validationResult, matchedData } from 'express-validator';
 
 const getPostComments = async (req, res, next) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
   const { postId } = req.params;
   try {
     const existingPost = await prisma.post.findFirst({

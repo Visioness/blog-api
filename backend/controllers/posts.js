@@ -25,7 +25,7 @@ const getAllPosts = async (req, res, next) => {
 const getPostByPostId = async (req, res, next) => {
   try {
     const { postId } = req.params;
-    const userId = req.user.id;
+    const userId = req.user?.id;
 
     const existingPost = await prisma.post.findFirst({
       where: {

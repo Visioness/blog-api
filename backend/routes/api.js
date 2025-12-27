@@ -13,9 +13,9 @@ router.use('/sign-up', signUpRouter);
 router.use('/log-in', logInRouter);
 router.use('/log-out', verifyJWT, logOutRouter);
 
-router.use('/profile', verifyJWT, profileRouter);
+router.use('/profile', profileRouter);
 
-router.use('/posts', verifyJWT, postsRouter);
+router.use('/posts', postsRouter);
 router.use('/comments', verifyJWT, commentsRouter);
 
 export { router };

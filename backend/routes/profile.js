@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { verifyJWT } from '../middlewares/verifyJWT.js';
 import {
   getProfileByUsername,
   getProfilePosts,
@@ -12,6 +13,6 @@ router.get('/:username', getProfileByUsername);
 router.get('/:username/posts', getProfilePosts);
 router.get('/:username/comments', getProfileComments);
 
-router.patch('/role', upgradeRole);
+router.patch('/role', verifyJWT, upgradeRole);
 
 export { router as profileRouter };

@@ -39,7 +39,7 @@ const getProfilePosts = async (req, res, next) => {
         author: {
           username,
         },
-        status: username !== currentUser.username ? 'PUBLISHED' : undefined,
+        status: username !== currentUser?.username ? 'PUBLISHED' : undefined,
       },
     });
 
