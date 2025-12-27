@@ -1,48 +1,6 @@
 import { prisma } from '../lib/prisma.js';
 import { validationResult, matchedData } from 'express-validator';
 
-const getPostComments = async (req, res, next) => {
-  const userId = req.user?.id;
-  const { postId } = req.params;
-  try {
-    const existingPost = await prisma.post.findFirst({
-      where: {
-        id: postId,
-        OR: [{ status: 'PUBLISHED' }, { authorId: userId }],
-      },
-    });
-
-    if (!existingPost) {
-      return res.status(404).json({
-        success: false,
-        message: 'Post not found.',
-      });
-    }
-
-    const comments = await prisma.comment.findMany({
-      where: {
-        postId,
-        post: { OR: [{ status: 'PUBLISHED' }, { authorId: userId }] },
-      },
-      select: {
-        id: true,
-        content: true,
-        likes: true,
-        createdAt: true,
-        author: { select: { username: true } },
-      },
-    });
-
-    res.json({
-      success: true,
-      message: 'Succesfully loaded the comments.',
-      data: comments,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
 const createComment = async (req, res, next) => {
   const userId = req.user.id;
   const { postId } = req.params;
@@ -179,4 +137,4 @@ const deleteComment = async (req, res, next) => {
   }
 };
 
-export { getPostComments, createComment, updateComment, deleteComment };
+export { createComment, updateComment, deleteComment };

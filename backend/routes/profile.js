@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { verifyJWT } from '../middlewares/verifyJWT.js';
+import { requireAuth, optionalAuth } from '../middlewares/auth.js';
 import {
   getProfileByUsername,
   getProfilePosts,
@@ -10,9 +10,9 @@ import {
 const router = Router();
 
 router.get('/:username', getProfileByUsername);
-router.get('/:username/posts', getProfilePosts);
+router.get('/:username/posts', optionalAuth, getProfilePosts);
 router.get('/:username/comments', getProfileComments);
 
-router.patch('/role', verifyJWT, upgradeRole);
+router.patch('/role', requireAuth, upgradeRole);
 
 export { router as profileRouter };

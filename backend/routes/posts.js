@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { verifyAuthor } from '../middlewares/verifyAuthor.js';
-import { verifyJWT } from '../middlewares/verifyJWT.js';
+import { requireAuth, optionalAuth } from '../middlewares/auth.js';
 import {
   postValidation,
   postStatusValidation,
@@ -15,28 +15,27 @@ import {
   changePostStatus,
   likePost,
 } from '../controllers/posts.js';
-import { getPostComments, createComment } from '../controllers/comments.js';
+import { createComment } from '../controllers/comments.js';
 
 const router = Router();
 
 router.get('/', getAllPosts);
-router.get('/:postId', getPostByPostId);
+router.get('/:postId', optionalAuth, getPostByPostId);
 
-router.post('/', verifyJWT, verifyAuthor, postValidation, createPost);
-router.patch('/:postId', verifyJWT, verifyAuthor, postValidation, updatePost);
-router.delete('/:postId', verifyJWT, verifyAuthor, deletePost);
+router.post('/', requireAuth, verifyAuthor, postValidation, createPost);
+router.patch('/:postId', requireAuth, verifyAuthor, postValidation, updatePost);
+router.delete('/:postId', requireAuth, verifyAuthor, deletePost);
 
 router.patch(
   '/:postId/status',
-  verifyJWT,
+  requireAuth,
   verifyAuthor,
   postStatusValidation,
   changePostStatus
 );
 
-router.post('/:postId/like', verifyJWT, likePost);
+router.post('/:postId/like', requireAuth, likePost);
 
-router.get('/:postId/comments', getPostComments);
-router.post('/:postId/comments', verifyJWT, commentValidation, createComment);
+router.post('/:postId/comments', requireAuth, commentValidation, createComment);
 
 export { router as postsRouter };

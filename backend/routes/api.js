@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { verifyJWT } from '../middlewares/verifyJWT.js';
+import { requireAuth } from '../middlewares/auth.js';
 import { signUpRouter } from './signUp.js';
 import { logInRouter } from './logIn.js';
 import { profileRouter } from './profile.js';
@@ -11,11 +11,11 @@ const router = Router();
 
 router.use('/sign-up', signUpRouter);
 router.use('/log-in', logInRouter);
-router.use('/log-out', verifyJWT, logOutRouter);
+router.use('/log-out', requireAuth, logOutRouter);
 
 router.use('/profile', profileRouter);
 
 router.use('/posts', postsRouter);
-router.use('/comments', verifyJWT, commentsRouter);
+router.use('/comments', requireAuth, commentsRouter);
 
 export { router };
