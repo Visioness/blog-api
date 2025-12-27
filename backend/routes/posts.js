@@ -3,6 +3,7 @@ import { verifyAuthor } from '../middlewares/verifyAuthor.js';
 import {
   postValidation,
   postStatusValidation,
+  commentValidation,
 } from '../middlewares/validations.js';
 import {
   getAllPosts,
@@ -13,6 +14,7 @@ import {
   changePostStatus,
   likePost,
 } from '../controllers/posts.js';
+import { getPostComments, createComment } from '../controllers/comments.js';
 
 const router = Router();
 
@@ -31,5 +33,8 @@ router.patch(
 );
 
 router.post('/:postId/like', likePost);
+
+router.get('/:postId/comments', getPostComments);
+router.post('/:postId/comments', commentValidation, createComment);
 
 export { router as postsRouter };

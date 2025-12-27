@@ -63,4 +63,18 @@ const postStatusValidation = [
     .withMessage('Status must be either PUBLISHED or HIDDEN'),
 ];
 
-export { userValidation, postValidation, postStatusValidation };
+const commentValidation = [
+  body('content')
+    .trim()
+    .notEmpty()
+    .withMessage('Comment content is required')
+    .isLength({ min: 1, max: 1000 })
+    .withMessage('Comment must be between 1 and 1000 characters'),
+];
+
+export {
+  userValidation,
+  postValidation,
+  postStatusValidation,
+  commentValidation,
+};

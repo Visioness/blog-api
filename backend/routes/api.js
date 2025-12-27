@@ -5,6 +5,7 @@ import { logInRouter } from './logIn.js';
 import { profileRouter } from './profile.js';
 import { logOutRouter } from './logOut.js';
 import { postsRouter } from './posts.js';
+import { commentsRouter } from './comments.js';
 
 const router = Router();
 
@@ -15,5 +16,6 @@ router.use('/log-out', verifyJWT, logOutRouter);
 router.use('/profile', verifyJWT, profileRouter);
 
 router.use('/posts', verifyJWT, postsRouter);
+router.use('/comments', verifyJWT, commentsRouter);
 
 export { router };
