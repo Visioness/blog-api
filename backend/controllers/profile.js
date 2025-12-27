@@ -36,7 +36,7 @@ const getProfileByUsername = async (req, res, next) => {
   try {
     const existingUser = await prisma.user.findUnique({
       where: {
-        username: username,
+        username,
       },
     });
 

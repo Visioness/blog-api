@@ -78,10 +78,12 @@ const createPost = async (req, res, next) => {
 
     const { title, content } = matchedData(req);
 
-    const existingPost = await prisma.post.findFirst({
+    const existingPost = await prisma.post.findUnique({
       where: {
-        title,
-        authorId: userId,
+        title_authorId: {
+          title,
+          authorId: userId,
+        },
       },
     });
 
@@ -120,13 +122,13 @@ const updatePost = async (req, res, next) => {
         .array()
         .map((error) => error.msg)
         .join('--');
-      return res.json({
+      return res.status(400).json({
         success: false,
         message: mergedMessage,
       });
     }
 
-    const existingPost = await prisma.post.findUnique({
+    const existingPost = await prisma.post.findFirst({
       where: {
         id: postId,
         authorId: userId,
@@ -181,7 +183,7 @@ const deletePost = async (req, res, next) => {
   const { postId } = req.params;
   const userId = req.user.id;
   try {
-    const existingPost = await prisma.post.findUnique({
+    const existingPost = await prisma.post.findFirst({
       where: {
         id: postId,
         authorId: userId,
@@ -221,7 +223,7 @@ const changePostStatus = async (req, res, next) => {
         .array()
         .map((error) => error.msg)
         .join('--');
-      return res.json({
+      return res.status(400).json({
         success: false,
         message: mergedMessage,
       });
@@ -229,7 +231,7 @@ const changePostStatus = async (req, res, next) => {
 
     const { status } = matchedData(req);
 
-    const existingPost = await prisma.post.findUnique({
+    const existingPost = await prisma.post.findFirst({
       where: {
         id: postId,
         authorId: userId,
