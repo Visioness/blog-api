@@ -34,6 +34,19 @@ const getProfilePosts = async (req, res, next) => {
   const currentUser = req.user;
   const { username } = req.params;
   try {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found.',
+      });
+    }
+
     const posts = await prisma.post.findMany({
       where: {
         author: {
@@ -56,6 +69,19 @@ const getProfilePosts = async (req, res, next) => {
 const getProfileComments = async (req, res, next) => {
   const { username } = req.params;
   try {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found.',
+      });
+    }
+
     const comments = await prisma.comment.findMany({
       where: {
         author: {
