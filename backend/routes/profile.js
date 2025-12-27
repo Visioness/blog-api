@@ -1,14 +1,16 @@
 import { Router } from 'express';
 import {
-  getProfile,
   getProfileByUsername,
+  getProfilePosts,
+  getProfileComments,
   upgradeRole,
 } from '../controllers/profile.js';
 
 const router = Router();
 
-router.get('/', getProfile);
-router.get('/users/:username', getProfileByUsername);
+router.get('/:username', getProfileByUsername);
+router.get('/:username/posts', getProfilePosts);
+router.get('/:username/comments', getProfileComments);
 
 router.patch('/role', upgradeRole);
 
