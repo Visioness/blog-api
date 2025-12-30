@@ -41,17 +41,22 @@ export const api = async (endpoint, options = {}) => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.message || 'Something went wrong');
+      const errorMessage = data.message || 'Something went wrong';
+      // Log the error for debugging purposes, but rely on the UI to show the message
+      console.warn(`API Error (${response.status}):`, errorMessage);
+      throw new Error(errorMessage);
     }
 
     return data;
   } catch (error) {
     // Handle network errors (connection refused, offline, etc.)
     if (error instanceof TypeError || error.name === 'TypeError') {
+      console.error('Network Error:', error);
       throw new Error(
         'We are trying to load the server. Please check your connection.'
       );
     }
+    // Re-throw other errors
     throw error;
   }
 };

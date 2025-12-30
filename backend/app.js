@@ -42,7 +42,25 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  res.status(error.statusCode || 500).json({
+  const statusCode = error.statusCode || 500;
+
+  // Log the full error for server-side debugging
+  console.error('[Error] ', {
+    message: error.message,
+    stack: error.stack,
+    path: req.path,
+    method: req.method,
+  });
+
+  // In production, don't leak internal server errors to the client
+  if (process.env.NODE_ENV === 'production' && statusCode === 500) {
+    return res.status(500).json({
+      success: false,
+      message: 'Something went wrong on our end. Please try again later.',
+    });
+  }
+
+  res.status(statusCode).json({
     success: false,
     message: error.message,
   });
