@@ -1,4 +1,5 @@
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL =
+  import.meta.env.API_BASE_URL || 'http://localhost:3000/api';
 
 /**
  * Wrapper around fetch with credentials and JSON handling
@@ -46,16 +47,20 @@ export const postsApi = {
   getAll: () => api('/posts'),
   getById: (postId) => api(`/posts/${postId}`),
   create: (postData) => api('/posts', { method: 'POST', body: postData }),
-  update: (postId, postData) => api(`/posts/${postId}`, { method: 'PATCH', body: postData }),
+  update: (postId, postData) =>
+    api(`/posts/${postId}`, { method: 'PATCH', body: postData }),
   delete: (postId) => api(`/posts/${postId}`, { method: 'DELETE' }),
-  changeStatus: (postId, status) => api(`/posts/${postId}/status`, { method: 'PATCH', body: { status } }),
+  changeStatus: (postId, status) =>
+    api(`/posts/${postId}/status`, { method: 'PATCH', body: { status } }),
   like: (postId) => api(`/posts/${postId}/like`, { method: 'POST' }),
 };
 
 // Comments API
 export const commentsApi = {
-  create: (postId, content) => api(`/posts/${postId}/comments`, { method: 'POST', body: { content } }),
-  update: (commentId, content) => api(`/comments/${commentId}`, { method: 'PATCH', body: { content } }),
+  create: (postId, content) =>
+    api(`/posts/${postId}/comments`, { method: 'POST', body: { content } }),
+  update: (commentId, content) =>
+    api(`/comments/${commentId}`, { method: 'PATCH', body: { content } }),
   delete: (commentId) => api(`/comments/${commentId}`, { method: 'DELETE' }),
 };
 
@@ -66,4 +71,3 @@ export const profileApi = {
   getComments: (username) => api(`/profile/${username}/comments`),
   upgradeRole: () => api('/profile/role', { method: 'PATCH' }),
 };
-
