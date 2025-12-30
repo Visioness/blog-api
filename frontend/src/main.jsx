@@ -28,6 +28,7 @@ import ProfileLayout from './pages/profile/ProfileLayout.jsx';
 import ProfileInfo from './pages/profile/ProfileInfo.jsx';
 import ProfilePosts from './pages/profile/ProfilePosts.jsx';
 import ProfileComments from './pages/profile/ProfileComments.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -102,6 +103,12 @@ const router = createBrowserRouter([
             element: <ProfileComments />,
           },
         ],
+      },
+
+      // 404 Route
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },
