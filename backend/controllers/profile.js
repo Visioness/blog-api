@@ -1,4 +1,5 @@
 import { prisma } from '../lib/prisma.js';
+import jwt from 'jsonwebtoken';
 
 const getProfileByUsername = async (req, res, next) => {
   const { username } = req.params;
@@ -130,6 +131,26 @@ const upgradeRole = async (req, res, next) => {
       data: {
         role: 'AUTHOR',
       },
+    });
+
+    const token = jwt.sign(
+      {
+        id: updatedUser.id,
+        username: updatedUser.username,
+        email: updatedUser.email,
+        role: updatedUser.role,
+      },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: '1h',
+      }
+    );
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      maxAge: 60 * 60 * 1000,
     });
 
     res.json({
