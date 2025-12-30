@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { requireAuth } from '../middlewares/auth.js';
 import { signUpRouter } from './signUp.js';
 import { logInRouter } from './logIn.js';
+import { authRouter } from './auth.js';
 import { profileRouter } from './profile.js';
 import { logOutRouter } from './logOut.js';
 import { postsRouter } from './posts.js';
@@ -9,9 +10,14 @@ import { commentsRouter } from './comments.js';
 
 const router = Router();
 
+router.get('/status', (req, res) => {
+  res.status(200).json({ success: true, message: 'System is ready' });
+});
+
+router.use('/', authRouter);
 router.use('/sign-up', signUpRouter);
 router.use('/log-in', logInRouter);
-router.use('/log-out', requireAuth, logOutRouter);
+router.use('/log-out', logOutRouter);
 
 router.use('/profile', profileRouter);
 

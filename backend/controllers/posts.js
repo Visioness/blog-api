@@ -7,6 +7,13 @@ const getAllPosts = async (req, res, next) => {
       where: {
         status: 'PUBLISHED',
       },
+      include: {
+        author: {
+          select: {
+            username: true,
+          },
+        },
+      },
       orderBy: {
         createdAt: 'desc',
       },
@@ -40,7 +47,23 @@ const getPostByPostId = async (req, res, next) => {
         ],
       },
       include: {
-        comments: true,
+        author: {
+          select: {
+            username: true,
+          },
+        },
+        comments: {
+          include: {
+            author: {
+              select: {
+                username: true,
+              },
+            },
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
       },
     });
 

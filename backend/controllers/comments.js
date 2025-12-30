@@ -39,6 +39,13 @@ const createComment = async (req, res, next) => {
         postId,
         authorId: userId,
       },
+      include: {
+        author: {
+          select: {
+            username: true,
+          },
+        },
+      },
     });
 
     res.status(201).json({
@@ -90,6 +97,13 @@ const updateComment = async (req, res, next) => {
       },
       data: {
         content,
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+          },
+        },
       },
     });
 
