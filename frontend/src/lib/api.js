@@ -24,14 +24,36 @@ export const api = async (endpoint, options = {}) => {
     config.body = JSON.stringify(options.body);
   }
 
-  const response = await fetch(url, config);
-  const data = await response.json();
+  try {
+    const response = await fetch(url, config);
 
-  if (!response.ok) {
-    throw new Error(data.message || 'Something went wrong');
+    // Handle non-JSON responses (e.g., 502/503 HTML from proxies)
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      if (!response.ok) {
+        throw new Error(
+          'We are trying to load the server. Please wait a moment.'
+        );
+      }
+      return {};
+    }
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Something went wrong');
+    }
+
+    return data;
+  } catch (error) {
+    // Handle network errors (connection refused, offline, etc.)
+    if (error instanceof TypeError || error.name === 'TypeError') {
+      throw new Error(
+        'We are trying to load the server. Please check your connection.'
+      );
+    }
+    throw error;
   }
-
-  return data;
 };
 
 // Auth API
