@@ -5,6 +5,11 @@
   "author": "Visioness",
   "type": "module",
   "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "build": "npx prisma generate && npx prisma migrate deploy"
+  },
   "dependencies": {
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
